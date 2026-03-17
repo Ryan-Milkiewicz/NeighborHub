@@ -1,5 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { Feed } from "@/components/feed";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -7,7 +6,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-export default function Home() {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -19,16 +18,8 @@ export default function Home() {
             className="mr-2 data-vertical:h-4 data-vertical:self-auto"
           />
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <Feed />
-          <Feed />
-          <Feed />
-          {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div> */}
-          {/* <div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
+        <div className="flex flex-1 flex-col gap-4 p-4 max-w-4xl mx-auto w-full">
+          {children}
         </div>
       </SidebarInset>
     </SidebarProvider>

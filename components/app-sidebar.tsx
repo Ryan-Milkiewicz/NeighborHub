@@ -27,13 +27,13 @@ const data = {
       items: [
         {
           title: "Feed",
-          url: "#",
+          url: "/",
           isActive: true,
           icon: <HugeiconsIcon strokeWidth={2} icon={ChatFeedback01Icon} />,
         },
         {
           title: "Events",
-          url: "#",
+          url: "/events",
           icon: <HugeiconsIcon strokeWidth={2} icon={Calendar03Icon} />,
         },
         {
@@ -43,7 +43,7 @@ const data = {
         },
         {
           title: "Bulletin Board",
-          url: "#",
+          url: "/bulletin-board",
           icon: <HugeiconsIcon strokeWidth={2} icon={ClipboardIcon} />,
         },
       ],
