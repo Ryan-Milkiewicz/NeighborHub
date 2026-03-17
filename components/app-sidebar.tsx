@@ -31,7 +31,7 @@ const links = [
     icon: <HugeiconsIcon strokeWidth={2} icon={ChatFeedback01Icon} />,
   },
   {
-    name: "Event",
+    name: "Events",
     href: "/events",
     icon: <HugeiconsIcon strokeWidth={2} icon={Calendar03Icon} />,
   },
@@ -66,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       key={item.name}
                       href={item.href}
                       className={clsx(
-                        "flex h-[48px] grow items-center justify-center rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-gray-100 hover:text-gray-700 md:flex-none md:justify-start md:p-2 md:px-3",
+                        "flex h-[64px] grow items-center justify-center rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-gray-100 hover:text-gray-700 md:flex-none md:justify-start md:p-2 md:px-3",
                         {
                           "bg-gray-200 text-gray-900": pathname === item.href,
                         },
