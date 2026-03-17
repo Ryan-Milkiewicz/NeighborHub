@@ -1,3 +1,4 @@
+"use client";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Agreement02Icon,
@@ -5,7 +6,9 @@ import {
   ChatFeedback01Icon,
   ClipboardIcon,
 } from "@hugeicons/core-free-icons";
-import { SearchForm } from "@/components/search-form";
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Sidebar,
@@ -18,40 +21,34 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { SearchForm } from "@/components/search-form";
 
-const data = {
-  navMain: [
-    {
-      title: "Main Content",
-      url: "#",
-      items: [
-        {
-          title: "Feed",
-          url: "/",
-          isActive: true,
-          icon: <HugeiconsIcon strokeWidth={2} icon={ChatFeedback01Icon} />,
-        },
-        {
-          title: "Events",
-          url: "/events",
-          icon: <HugeiconsIcon strokeWidth={2} icon={Calendar03Icon} />,
-        },
-        {
-          title: "Neighbors",
-          url: "#",
-          icon: <HugeiconsIcon strokeWidth={2} icon={Agreement02Icon} />,
-        },
-        {
-          title: "Bulletin Board",
-          url: "/bulletin-board",
-          icon: <HugeiconsIcon strokeWidth={2} icon={ClipboardIcon} />,
-        },
-      ],
-    },
-  ],
-};
+// Map of links to display in the side navigation.
+const links = [
+  {
+    name: "Feed",
+    href: "/",
+    icon: <HugeiconsIcon strokeWidth={2} icon={ChatFeedback01Icon} />,
+  },
+  {
+    name: "Event",
+    href: "/events",
+    icon: <HugeiconsIcon strokeWidth={2} icon={Calendar03Icon} />,
+  },
+  {
+    name: "Neighbors",
+    href: "#",
+    icon: <HugeiconsIcon strokeWidth={2} icon={Agreement02Icon} />,
+  },
+  {
+    name: "Bulletin Board",
+    href: "/bulletin-board",
+    icon: <HugeiconsIcon strokeWidth={2} icon={ClipboardIcon} />,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -59,21 +56,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
+        {links.map((item) => (
+          <SidebarGroup key={item.name}>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>
-                        {item.icon}
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                <SidebarMenuItem key={item.name}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={clsx(
+                        "flex h-[48px] grow items-center justify-center rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-gray-100 hover:text-gray-700 md:flex-none md:justify-start md:p-2 md:px-3",
+                        {
+                          "bg-gray-200 text-gray-900": pathname === item.href,
+                        },
+                      )}
+                    >
+                      {item.icon}
+                      <p>{item.name}</p>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
