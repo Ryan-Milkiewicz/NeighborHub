@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,17 +14,22 @@ import { FavouriteIcon, MailReply01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Separator } from "@/components/ui/separator";
 
-export function Feed() {
+export async function Feed({
+  fullName,
+  initials,
+}: {
+  fullName: string;
+  initials: string;
+}) {
   return (
     <Card size="sm" className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle>Ryan M.</CardTitle>
+            <CardTitle>{fullName}</CardTitle>
             <CardDescription>5 mins ago</CardDescription>
           </div>
         </div>

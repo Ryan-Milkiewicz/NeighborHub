@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "./ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,15 +21,14 @@ const postTypes = [
 
 type PostType = (typeof postTypes)[number]["type"];
 
-export function PostForm() {
+export function PostForm({ initials }: { initials: string }) {
   const [selectedType, setSelectedType] = useState<PostType>("general");
   return (
     <Card size="sm" className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <span className="text-sm text-muted-foreground">
             What's on your mind?
