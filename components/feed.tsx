@@ -17,6 +17,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Separator } from "@/components/ui/separator";
 
 import { useQuery } from "convex/react";
+//import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 
 export function Feed() {
@@ -62,7 +63,7 @@ export function Feed() {
                     strokeWidth={2}
                     className="size-4"
                   />
-                  5
+                  {post.likes ?? 0}
                 </Button>
                 <Button variant="outline" size="sm">
                   <HugeiconsIcon
