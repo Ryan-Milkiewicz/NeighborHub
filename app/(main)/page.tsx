@@ -4,7 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {
   const user = await currentUser();
-  const fullName = `${user?.firstName ?? ""}${user?.lastName ?? ""}`;
+  const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`;
   const initials = `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`;
   return (
     <>
