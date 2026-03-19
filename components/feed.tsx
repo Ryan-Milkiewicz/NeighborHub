@@ -21,12 +21,12 @@ import { useQuery } from "convex/react";
 import { useMutation } from "convex/react";
 import { useState } from "react";
 import { api } from "../convex/_generated/api";
+import { FeedSkeleton } from "./feed-skelton";
 
 export function Feed() {
+  const [openComments, setOpenComments] = useState<Set<string>>(new Set());
   const posts = useQuery(api.posts.getFeedPosts);
   const toggleLike = useMutation(api.posts.toggleLike);
-
-  const [openComments, setOpenComments] = useState<Set<string>>(new Set());
 
   const toggleComments = (postId: string) => {
     setOpenComments((prev) => {
@@ -36,8 +36,7 @@ export function Feed() {
     });
   };
 
-  console.log(posts);
-  if (posts === undefined) return <div>Loading...</div>;
+  if (posts === undefined) return <FeedSkeleton length={4} />;
 
   return (
     <>
