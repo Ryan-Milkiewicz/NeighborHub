@@ -24,6 +24,15 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_author", ["authorId"]),
 
+  comments: defineTable({
+    content: v.string(),
+    postId: v.id("posts"),
+    userId: v.id("users"),
+    createdAt: v.number(),
+  })
+    .index("by_post", ["postId"])
+    .index("by_post_and_user", ["postId", "userId"]),
+
   likes: defineTable({
     postId: v.id("posts"),
     userId: v.id("users"),
