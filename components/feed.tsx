@@ -21,7 +21,6 @@ import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 
 export function Feed() {
-  // Query to get posts from convex
   const posts = useQuery(api.posts.getFeedPosts);
   const toggleLike = useMutation(api.posts.toggleLike);
   console.log(posts);
