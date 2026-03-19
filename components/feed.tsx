@@ -97,7 +97,7 @@ export function Feed() {
                   </Button>
                 </div>
 
-                {/* comments below buttons */}
+                {/* Comments go below the row of buttons */}
                 <Comment
                   postId={post._id}
                   isOpen={openComments.has(post._id)}

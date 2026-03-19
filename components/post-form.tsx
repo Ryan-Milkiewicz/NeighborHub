@@ -32,7 +32,10 @@ export function PostForm({ initials }: { initials: string }) {
   const createPost = useMutation(api.posts.createPost);
 
   const handleSubmit = async () => {
+    // If the post is empty or just spaces don't submit
     if (!post.trim()) return;
+
+    // Call the createPost mutation
     await createPost({ post, type: selectedType });
     setPost("");
   };
