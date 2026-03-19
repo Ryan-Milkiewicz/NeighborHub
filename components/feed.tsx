@@ -17,12 +17,13 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Separator } from "@/components/ui/separator";
 
 import { useQuery } from "convex/react";
-//import { useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 
 export function Feed() {
   // Query to get posts from convex
-  const posts = useQuery(api.posts.get);
+  const posts = useQuery(api.posts.getFeedPosts);
+  const toggleLike = useMutation(api.posts.toggleLike);
   console.log(posts);
   if (posts === undefined) return <div>Loading...</div>;
 
@@ -57,13 +58,17 @@ export function Feed() {
             <Separator className="my-2" />
             <CardFooter>
               <div className="flex items-center gap-6">
-                <Button variant="outline" size="sm">
+                <Button
+                  variant={post.likedByUser ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => toggleLike({ postId: post._id })}
+                >
                   <HugeiconsIcon
                     icon={FavouriteIcon}
                     strokeWidth={2}
                     className="size-4"
                   />
-                  {post.likes ?? 0}
+                  {post.likes}
                 </Button>
                 <Button variant="outline" size="sm">
                   <HugeiconsIcon

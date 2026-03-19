@@ -34,9 +34,19 @@ export const toggleLike = mutation({
   },
 });
 
-export const get = query({
+export const getFeedPosts = query({
   args: {},
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    // get the convex user record from clerk id
+    const currentUser = identity
+      ? await ctx.db
+          .query("users")
+          .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+          .unique()
+      : null;
+
     const posts = await ctx.db.query("posts").collect();
 
     return await Promise.all(
@@ -47,10 +57,20 @@ export const get = query({
           .withIndex("by_post", (q) => q.eq("postId", post._id))
           .collect();
 
+        const userLike = currentUser
+          ? await ctx.db
+              .query("likes")
+              .withIndex("by_post_and_user", (q) =>
+                q.eq("postId", post._id).eq("userId", currentUser._id),
+              )
+              .unique()
+          : null;
+
         return {
           ...post,
           author,
           likes: likes.length,
+          likedByUser: !!userLike,
         };
       }),
     );
