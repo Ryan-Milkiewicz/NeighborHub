@@ -1,6 +1,5 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { id } from "date-fns/locale";
 
 export const toggleLike = mutation({
   args: {
@@ -44,6 +43,7 @@ export const toggleLike = mutation({
 export const getFeedPosts = query({
   args: {},
   handler: async (ctx) => {
+    // Check if user is authenticated
     const identity = await ctx.auth.getUserIdentity();
 
     // Get the convex user record from clerk id
@@ -55,7 +55,7 @@ export const getFeedPosts = query({
       : null;
 
     // Get all the posts
-    const posts = await ctx.db.query("posts").collect();
+    const posts = await ctx.db.query("posts").order("desc").collect();
 
     return await Promise.all(
       posts.map(async (post) => {
@@ -90,5 +90,35 @@ export const getFeedPosts = query({
         };
       }),
     );
+  },
+});
+
+export const createPost = mutation({
+  args: {
+    post: v.string(),
+    type: v.union(
+      v.literal("general"),
+      v.literal("alert"),
+      v.literal("event"),
+      v.literal("free"),
+    ),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique();
+
+    if (!currentUser) throw new Error("User not found");
+
+    await ctx.db.insert("posts", {
+      content: args.post,
+      type: args.type,
+      authorId: currentUser._id,
+      createdAt: Date.now(),
+    });
   },
 });

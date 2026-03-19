@@ -10,7 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
 
 const postTypes = [
   { type: "general", emoji: "💬", label: "General" },
@@ -23,6 +26,16 @@ type PostType = (typeof postTypes)[number]["type"];
 
 export function PostForm({ initials }: { initials: string }) {
   const [selectedType, setSelectedType] = useState<PostType>("general");
+  const [post, setPost] = useState<string>("");
+
+  // Create post mutation
+  const createPost = useMutation(api.posts.createPost);
+
+  const handleSubmit = async () => {
+    if (!post.trim()) return;
+    await createPost({ post, type: selectedType });
+    setPost("");
+  };
   return (
     <Card size="sm" className="mx-auto w-full max-w-2xl">
       <CardHeader>
@@ -37,6 +50,8 @@ export function PostForm({ initials }: { initials: string }) {
       </CardHeader>
       <CardContent>
         <Textarea
+          value={post}
+          onChange={(e) => setPost(e.target.value)}
           placeholder="What's happening in the neighborhood?"
           className="min-h-[80px] resize-none border-none shadow-none focus-visible:ring-0"
         />
@@ -55,7 +70,9 @@ export function PostForm({ initials }: { initials: string }) {
             </Badge>
           ))}
         </div>
-        <Button size="sm">Post</Button>
+        <Button size="sm" onClick={handleSubmit} disabled={!post.trim()}>
+          Post
+        </Button>
       </CardFooter>
     </Card>
   );

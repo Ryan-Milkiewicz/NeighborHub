@@ -42,7 +42,7 @@ export function Feed() {
                   <CardTitle>
                     {post.author?.firstName} {post.author?.lastName}
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription suppressHydrationWarning>
                     {formatDistanceToNow(post.createdAt, { addSuffix: true })}
                   </CardDescription>
                 </div>
